@@ -31,8 +31,8 @@ public class MarkdownTableUtils {
 	 *
 	 */
 	public static String createEmptyTable(List<String> headerRowCaptions, int emptyRowCount) {
-		//ToDo1: @throwsの追加（in Javadoc）←調べる
-		//ToDo2:
+		//ToDo1: @throwsの追加（in Javadoc)
+		//ToDo2:Strings.repeat()のことかな
 		//ToDo3:OAOO原則：同じような処理を行う際に似たコードを何度も書かずまとめるという決まり事
 		//ToDo4:メソッドを抽出し、コメントが不要な場合は削除する。
 		//ToDo5:抽出したメソッドからStringBuilderの引数を削除してリファクタリングする。文字列を返す
@@ -53,27 +53,38 @@ public class MarkdownTableUtils {
 		final String SPACE = " ";
 
 		// create line for header row captions
-		for (String str : headerRowCaptions) {
-			markdownTable.append(PIPE + str);
-		}
+		headerRowCaptions(headerRowCaptions, markdownTable, PIPE);
 		markdownTable.append(putPIPEandNewLine(PIPE));
 
 		// create line for header row separator
-		for (String str : headerRowCaptions) {
-			String rowSeparator = Strings.repeat(HYPHEN, str.length());
-			markdownTable.append(PIPE + rowSeparator);
-		}
+		headerRowSeparator(headerRowCaptions, markdownTable, PIPE, HYPHEN);
 		markdownTable.append(putPIPEandNewLine(PIPE));
 
 		// create lines for empty rows
+		emptyRows(headerRowCaptions, emptyRowCount, markdownTable, PIPE, SPACE);
+		return markdownTable.toString();
+	}
+
+	private static void headerRowCaptions(List<String> headerRowCaptions, StringBuilder markdownTable, final String PIPE) {
+		for (String columnName : headerRowCaptions) {
+			markdownTable.append(PIPE + columnName);
+		}
+	}
+
+	private static void headerRowSeparator(List<String> headerRowCaptions, StringBuilder markdownTable,
+			final String PIPE, final String HYPHEN) {
+		for (String columnName : headerRowCaptions) {
+			String rowSeparator = Strings.repeat(HYPHEN, columnName.length());
+			markdownTable.append(PIPE + rowSeparator);
+		}
+	}
+
+	private static void emptyRows(List<String> headerRowCaptions, int emptyRowCount, StringBuilder markdownTable,
+			final String PIPE, final String SPACE) {
 		for (int i = 0; i < emptyRowCount; i++) {
-			for (String str : headerRowCaptions) {
-				String empRows = Strings.repeat(SPACE, str.length());
-				markdownTable.append(PIPE + empRows);
-			}
+			headerRowSeparator(headerRowCaptions, markdownTable, PIPE, SPACE);
 			markdownTable.append(putPIPEandNewLine(PIPE));
 		}
-		return markdownTable.toString();
 	}
 
 	private static String putPIPEandNewLine(String PIPE) {
