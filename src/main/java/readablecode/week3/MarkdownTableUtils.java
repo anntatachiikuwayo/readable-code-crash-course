@@ -18,6 +18,11 @@ public class MarkdownTableUtils {
 
 	// TODO1 add @throws in javadoc
 	// e.g @throws xxxException if xxx is null or is less than XXX
+
+	private static final String PIPE = "|";
+	private static final String HYPHEN = "-";
+	private static final String SPACE = " ";
+
 	/**
 	 * Returns the string of table which has empty rows as Markdown table syntax.
 	 * length of captions for separator cell and empty cell is same with their
@@ -30,12 +35,17 @@ public class MarkdownTableUtils {
 	 * @throws IllegalArgumentException
 	 *
 	 */
+
 	public static String createEmptyTable(List<String> headerRowCaptions, int emptyRowCount) {
 		//ToDo1: @throwsの追加（in Javadoc)
 		//ToDo2:Strings.repeat()のことかな
 		//ToDo3:OAOO原則：同じような処理を行う際に似たコードを何度も書かずまとめるという決まり事
 		//ToDo4:メソッドを抽出し、コメントが不要な場合は削除する。
 		//ToDo5:抽出したメソッドからStringBuilderの引数を削除してリファクタリングする。文字列を返す
+
+		String firstLine = null;
+		String secondLine = null;
+		String extraLine = null;
 
 		// validate args
 		Objects.requireNonNull(headerRowCaptions, "headerCaptions must not be null");
@@ -46,43 +56,42 @@ public class MarkdownTableUtils {
 			throw new IllegalArgumentException("emptyRowCount must be greater than or equal to 1");
 		}
 
-		StringBuilder markdownTable = new StringBuilder();
+		firstLine = makeHeaderRowCaptions(headerRowCaptions, PIPE) + putPIPEandNewLine(PIPE);
+		secondLine = makeHeaderRowSeparator(headerRowCaptions, PIPE, HYPHEN) + putPIPEandNewLine(PIPE);
+		extraLine = makeEmptyRows(headerRowCaptions, emptyRowCount, PIPE, SPACE);
 
-		final String PIPE = "|";
-		final String HYPHEN = "-";
-		final String SPACE = " ";
-
-		makeHeaderRowCaptions(headerRowCaptions, markdownTable, PIPE);
-		markdownTable.append(putPIPEandNewLine(PIPE));
-
-		makeHeaderRowSeparator(headerRowCaptions, markdownTable, PIPE, HYPHEN);
-		markdownTable.append(putPIPEandNewLine(PIPE));
-
-		makeEmptyRows(headerRowCaptions, emptyRowCount, markdownTable, PIPE, SPACE);
-		return markdownTable.toString();
+		return firstLine + secondLine + extraLine;
 	}
 
-	private static void makeHeaderRowCaptions(List<String> headerRowCaptions, StringBuilder markdownTable,
-			final String PIPE) {
+	private static String makeHeaderRowCaptions(List<String> headerRowCaptions, String PIPE) {
+
+		StringBuilder localMarkdownTable = new StringBuilder();
 		for (String columnName : headerRowCaptions) {
-			markdownTable.append(PIPE + columnName);
+			localMarkdownTable.append(PIPE + columnName);
 		}
+		return localMarkdownTable.toString();
 	}
 
-	private static void makeHeaderRowSeparator(List<String> headerRowCaptions, StringBuilder markdownTable,
-			final String PIPE, final String HYPHEN) {
+	private static String makeHeaderRowSeparator(List<String> headerRowCaptions, final String PIPE, final String HYPHEN) {
+		StringBuilder localMarkdownTable = new StringBuilder();
 		for (String columnName : headerRowCaptions) {
 			String rowSeparator = Strings.repeat(HYPHEN, columnName.length());
-			markdownTable.append(PIPE + rowSeparator);
+			localMarkdownTable.append(PIPE + rowSeparator);
 		}
+		return localMarkdownTable.toString();
 	}
 
-	private static void makeEmptyRows(List<String> headerRowCaptions, int emptyRowCount, StringBuilder markdownTable,
-			final String PIPE, final String SPACE) {
+	private static String makeEmptyRows(List<String> headerRowCaptions, int emptyRowCount, final String PIPE,
+			final String SPACE) {
+		StringBuilder localMarkdownTable = new StringBuilder();
 		for (int i = 0; i < emptyRowCount; i++) {
-			makeHeaderRowSeparator(headerRowCaptions, markdownTable, PIPE, SPACE);
-			markdownTable.append(putPIPEandNewLine(PIPE));
+			for (String columnName : headerRowCaptions) {
+				String emptyRows = Strings.repeat(SPACE, columnName.length());
+				localMarkdownTable.append(PIPE + emptyRows);
+			}
+			localMarkdownTable.append(putPIPEandNewLine(PIPE));
 		}
+		return localMarkdownTable.toString();
 	}
 
 	private static String putPIPEandNewLine(String PIPE) {
