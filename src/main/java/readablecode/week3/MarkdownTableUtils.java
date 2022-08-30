@@ -52,26 +52,24 @@ public class MarkdownTableUtils {
 		final String HYPHEN = "-";
 		final String SPACE = " ";
 
-		// create line for header row captions
-		headerRowCaptions(headerRowCaptions, markdownTable, PIPE);
+		makeHeaderRowCaptions(headerRowCaptions, markdownTable, PIPE);
 		markdownTable.append(putPIPEandNewLine(PIPE));
 
-		// create line for header row separator
-		headerRowSeparator(headerRowCaptions, markdownTable, PIPE, HYPHEN);
+		makeHeaderRowSeparator(headerRowCaptions, markdownTable, PIPE, HYPHEN);
 		markdownTable.append(putPIPEandNewLine(PIPE));
 
-		// create lines for empty rows
-		emptyRows(headerRowCaptions, emptyRowCount, markdownTable, PIPE, SPACE);
+		makeEmptyRows(headerRowCaptions, emptyRowCount, markdownTable, PIPE, SPACE);
 		return markdownTable.toString();
 	}
 
-	private static void headerRowCaptions(List<String> headerRowCaptions, StringBuilder markdownTable, final String PIPE) {
+	private static void makeHeaderRowCaptions(List<String> headerRowCaptions, StringBuilder markdownTable,
+			final String PIPE) {
 		for (String columnName : headerRowCaptions) {
 			markdownTable.append(PIPE + columnName);
 		}
 	}
 
-	private static void headerRowSeparator(List<String> headerRowCaptions, StringBuilder markdownTable,
+	private static void makeHeaderRowSeparator(List<String> headerRowCaptions, StringBuilder markdownTable,
 			final String PIPE, final String HYPHEN) {
 		for (String columnName : headerRowCaptions) {
 			String rowSeparator = Strings.repeat(HYPHEN, columnName.length());
@@ -79,10 +77,10 @@ public class MarkdownTableUtils {
 		}
 	}
 
-	private static void emptyRows(List<String> headerRowCaptions, int emptyRowCount, StringBuilder markdownTable,
+	private static void makeEmptyRows(List<String> headerRowCaptions, int emptyRowCount, StringBuilder markdownTable,
 			final String PIPE, final String SPACE) {
 		for (int i = 0; i < emptyRowCount; i++) {
-			headerRowSeparator(headerRowCaptions, markdownTable, PIPE, SPACE);
+			makeHeaderRowSeparator(headerRowCaptions, markdownTable, PIPE, SPACE);
 			markdownTable.append(putPIPEandNewLine(PIPE));
 		}
 	}
