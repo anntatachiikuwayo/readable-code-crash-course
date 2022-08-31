@@ -57,72 +57,54 @@ public class MarkdownTableUtils {
 		if (emptyRowCount < 1) {
 			throw new IllegalArgumentException("emptyRowCount must be greater than or equal to 1");
 		}
-
 		String headerRow = createHeaderRow(headerRowCaptions);
 		String separatorRow = createSeparatorRow(headerRowCaptions);
 		String emptyRows = createEmptyRows(headerRowCaptions, emptyRowCount);
-
-		//System.out.println(headerRow + separatorRow + emptyRows);
 		return headerRow + separatorRow + emptyRows;
-
 	}
 
 	private static String createHeaderRow(List<String> headerRowCaptions) {
 		StringBuilder markdownTable = new StringBuilder();
-		insertHeaderRow(headerRowCaptions, markdownTable);
-		insertRowEnd(markdownTable);
-		return markdownTable.toString();
-	}
-
-	private static void insertHeaderRow(List<String> headerRowCaptions, StringBuilder markdownTable) {
 		for (String captions : headerRowCaptions) {
 			markdownTable.append("|");
 			markdownTable.append(captions);
 		}
+		insertRowRnd(markdownTable);
+		return markdownTable.toString();
 	}
 
 	private static String createSeparatorRow(List<String> headerRowCaptions) {
 		StringBuilder markdownTable = new StringBuilder();
-		insertSeparatorRow(headerRowCaptions, markdownTable);
-		insertRowEnd(markdownTable);
-		return markdownTable.toString();
-	}
-
-	private static void insertSeparatorRow(List<String> headerRowCaptions, StringBuilder markdownTable) {
 		for (String captions : headerRowCaptions) {
 			markdownTable.append("|");
-			markdownTable.append(extracted(captions, "-"));
-
+			markdownTable.append(repeatSameSymbols(captions, "-"));
 		}
-	}
-
-	private static String extracted(String captions, String param) {
-		return Strings.repeat(param, captions.length());
+		insertRowRnd(markdownTable);
+		return markdownTable.toString();
 	}
 
 	private static String createEmptyRows(List<String> headerRowCaptions, int emptyRowCount) {
 		StringBuilder markdownTable = new StringBuilder();
 		for (int i = 0; i < emptyRowCount; i++) {
-			insertEmptyRow(headerRowCaptions, markdownTable);
-			insertRowEnd(markdownTable);
+			for (String captions : headerRowCaptions) {
+				markdownTable.append("|");
+				markdownTable.append(repeatSameSymbols(captions, " "));
+			}
+			insertRowRnd(markdownTable);
 		}
 		return markdownTable.toString();
 	}
 
-	private static void insertEmptyRow(List<String> headerRowCaptions, StringBuilder markdownTable) {
-		for (String captions : headerRowCaptions) {
-			markdownTable.append("|");
-			markdownTable.append(extracted(captions, " "));
-		}
-	}
-
-	private static void insertRowEnd(StringBuilder markdownTable) {
+	private static void insertRowRnd(StringBuilder markdownTable) {
 		markdownTable.append("|");
 		markdownTable.append(System.lineSeparator());
+	}
+
+	private static String repeatSameSymbols(String captions, String symbol) {
+		return Strings.repeat(symbol, captions.length());
 	}
 
 	private static String createRow(List<String> captions) {
 		return "|" + String.join("|", captions) + "|" + System.lineSeparator();
 	}
-
 }
