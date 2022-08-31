@@ -22,6 +22,10 @@ public class MarkdownTableUtils {
 	// 2. create adapter method for separator row and empty row in order to use
 	// createRow
 
+	private static final String PIPE = "|";
+	private static final String HYPHEN = "-";
+	private static final String SPACE = " ";
+
 	/**
 	 * Returns the string of table which has empty rows as Markdown table syntax.
 	 * length of captions for separator cell and empty cell is same with their
@@ -65,43 +69,49 @@ public class MarkdownTableUtils {
 
 	private static String createHeaderRow(List<String> headerRowCaptions) {
 		StringBuilder markdownTable = new StringBuilder();
-		for (String captions : headerRowCaptions) {
-			markdownTable.append("|");
-			markdownTable.append(captions);
-		}
-		insertRowRnd(markdownTable);
+		makeCaptionLine(headerRowCaptions, markdownTable);
 		return markdownTable.toString();
+	}
+
+	private static void makeCaptionLine(List<String> headerRowCaptions, StringBuilder markdownTable) {
+		for (String captions : headerRowCaptions) {
+			markdownTable.append(PIPE + captions);
+		}
+		insertRowEnd(markdownTable);
 	}
 
 	private static String createSeparatorRow(List<String> headerRowCaptions) {
 		StringBuilder markdownTable = new StringBuilder();
-		for (String captions : headerRowCaptions) {
-			markdownTable.append("|");
-			markdownTable.append(repeatSameSymbols(captions, "-"));
-		}
-		insertRowRnd(markdownTable);
+		makeOneHyphenLine(headerRowCaptions, markdownTable, HYPHEN);
 		return markdownTable.toString();
+	}
+
+	private static void makeOneHyphenLine(List<String> headerRowCaptions, StringBuilder markdownTable, String param) {
+		for (String captions : headerRowCaptions) {
+			markdownTable.append(PIPE + Strings.repeat(param, captions.length()));
+		}
+		insertRowEnd(markdownTable);
 	}
 
 	private static String createEmptyRows(List<String> headerRowCaptions, int emptyRowCount) {
 		StringBuilder markdownTable = new StringBuilder();
 		for (int i = 0; i < emptyRowCount; i++) {
-			for (String captions : headerRowCaptions) {
-				markdownTable.append("|");
-				markdownTable.append(repeatSameSymbols(captions, " "));
-			}
-			insertRowRnd(markdownTable);
+			makeOneEmptyLine(headerRowCaptions, markdownTable, SPACE);
 		}
 		return markdownTable.toString();
 	}
 
-	private static void insertRowRnd(StringBuilder markdownTable) {
-		markdownTable.append("|");
-		markdownTable.append(System.lineSeparator());
+	private static void makeOneEmptyLine(List<String> headerRowCaptions, StringBuilder markdownTable, String param) {
+		for (String captions : headerRowCaptions) {
+			markdownTable.append(PIPE);
+			markdownTable.append(Strings.repeat(param, captions.length()));
+		}
+		insertRowEnd(markdownTable);
 	}
 
-	private static String repeatSameSymbols(String captions, String symbol) {
-		return Strings.repeat(symbol, captions.length());
+	private static void insertRowEnd(StringBuilder markdownTable) {
+		markdownTable.append(PIPE);
+		markdownTable.append(System.lineSeparator());
 	}
 
 	private static String createRow(List<String> captions) {
