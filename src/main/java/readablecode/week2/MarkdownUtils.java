@@ -56,45 +56,5 @@ public class MarkdownUtils {
 			sb.append(System.lineSeparator());
 		}
 		return sb.toString();
-
-		//もともとのコード
-
-		//		if (l != null && !l.isEmpty() && c > 0) {
-		//			StringBuilder tmp = new StringBuilder();
-		//			for (String e : l) {
-		//				tmp.append("|");
-		//				tmp.append(e);
-		//			}
-		//			tmp.append("|");
-		//			tmp.append(System.lineSeparator());
-		//			for (String e : l) {
-		//				tmp.append("|");
-		//				for (int i = 0; i < e.length(); i++) {
-		//					tmp.append("-");
-		//				}
-		//			}
-		//			tmp.append("|");
-		//			tmp.append(System.lineSeparator());
-		//			for (int i = 0; i < c; i++) {
-		//				for (String e : l) {
-		//					tmp.append("|");
-		//					for (int j = 0; j < e.length(); j++) {
-		//						tmp.append(" ");
-		//					}
-		//				}
-		//				tmp.append("|");
-		//				tmp.append(System.lineSeparator());
-		//			}
-		//			String result = tmp.toString();
-		//			return result;
-		//		} else {
-		//			throw new IllegalArgumentException("");
-		//		}
 	}
 }
-
-//sb.append(empBox.repeat(nameListOfColumns.get(i)).length());
-//→repeat()使えない？？？
-//Stream.generate(() -> " ").limit(nameListOfColumns.get(i).length());
-//			//これはだめそうだった、appendつけたらさらにダメ
-//			String.join("", Collections.nCopies(nameListOfColumns.get(i).length(), " "));
