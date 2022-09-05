@@ -32,12 +32,13 @@ public class MarkdownTableUtils {
 	 * @param headerRowCaptions the captions for header row
 	 * @param emptyRowCount     the number of empty rows.
 	 * @return the string of table which has empty rows as Markdown table
-	 * @throws IllegalArgumentException
-	 *
+	 * @throws IllegalArgumentException if headerRowCaptions is empty
+	 * @throws IllegalArgumentException if emptyRowCount is less than 1
+	 * @throws NullPointerException if headerRowCaptions is null
 	 */
 
 	public static String createEmptyTable(List<String> headerRowCaptions, int emptyRowCount)
-			throws IllegalArgumentException {
+			throws IllegalArgumentException, NullPointerException {
 
 		String firstLine;
 		String secondLine;
