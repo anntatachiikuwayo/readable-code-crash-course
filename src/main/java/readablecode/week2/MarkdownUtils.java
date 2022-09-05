@@ -15,11 +15,6 @@ public class MarkdownUtils {
 
 	public static String createEmptyTableExceptName(List<String> nameListOfColumns, int recordNum)
 			throws IllegalArgumentException {
-		//ToDo1:早めにreturnしてネストを消す、条件式を簡単に
-		//ToDo2:コードを段落に分割して、処理の要約を書く
-		//ToDo3:変数の名前をリネーム
-		//ToDo4:メソッドの名前をリネーム
-		//ToDo5:不要な変数を消す
 		if (nameListOfColumns == null) {
 			throw new IllegalArgumentException("");
 		}
