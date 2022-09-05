@@ -39,9 +39,9 @@ public class MarkdownTableUtils {
 	public static String createEmptyTable(List<String> headerRowCaptions, int emptyRowCount)
 			throws IllegalArgumentException {
 
-		String firstLine = null;
-		String secondLine = null;
-		String extraLine = null;
+		String firstLine;
+		String secondLine;
+		String extraLine;
 
 		// validate args
 		Objects.requireNonNull(headerRowCaptions, "headerCaptions must not be null");
