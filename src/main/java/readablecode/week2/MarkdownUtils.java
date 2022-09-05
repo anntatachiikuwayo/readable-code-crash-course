@@ -13,7 +13,8 @@ public class MarkdownUtils {
 	// TODO4 : re-name method as it is after you read Readable code 3.0, 3.9
 	// TODO5 : remove the unnecessary variable after you read Readable code 9.1
 
-	public static String createColumns(List<String> nameListOfColumns, int recordNum) throws IllegalArgumentException {
+	public static String createEmptyTableExceptName(List<String> nameListOfColumns, int recordNum)
+			throws IllegalArgumentException {
 		//ToDo1:早めにreturnしてネストを消す、条件式を簡単に
 		//ToDo2:コードを段落に分割して、処理の要約を書く
 		//ToDo3:変数の名前をリネーム
