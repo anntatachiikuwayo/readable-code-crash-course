@@ -36,12 +36,8 @@ public class MarkdownTableUtils {
 	 *
 	 */
 
-	public static String createEmptyTable(List<String> headerRowCaptions, int emptyRowCount) {
-		//ToDo1: @throwsの追加（in Javadoc)
-		//ToDo2:Strings.repeat()のことかな
-		//ToDo3:OAOO原則：同じような処理を行う際に似たコードを何度も書かずまとめるという決まり事
-		//ToDo4:メソッドを抽出し、コメントが不要な場合は削除する。
-		//ToDo5:抽出したメソッドからStringBuilderの引数を削除してリファクタリングする。文字列を返す
+	public static String createEmptyTable(List<String> headerRowCaptions, int emptyRowCount)
+			throws IllegalArgumentException {
 
 		String firstLine = null;
 		String secondLine = null;
