@@ -68,16 +68,16 @@ public class MarkdownTableUtils {
 	}
 
 	private static String createHeaderRow(List<String> headerRowCaptions) {
-		StringBuilder markdownTable = new StringBuilder();
-		makeCaptionLine(headerRowCaptions, markdownTable);
-		return markdownTable.toString();
+		return makeCaptionLine(headerRowCaptions);
 	}
 
-	private static void makeCaptionLine(List<String> headerRowCaptions, StringBuilder markdownTable) {
+	private static String makeCaptionLine(List<String> headerRowCaptions) {
+		StringBuilder markdownTable = new StringBuilder();
 		for (String captions : headerRowCaptions) {
 			markdownTable.append(PIPE + captions);
 		}
 		insertRowEnd(markdownTable);
+		return markdownTable.toString();
 	}
 
 	private static String createSeparatorRow(List<String> headerRowCaptions) {
