@@ -81,16 +81,18 @@ public class MarkdownTableUtils {
 	}
 
 	private static String createSeparatorRow(List<String> headerRowCaptions) {
-		StringBuilder markdownTable = new StringBuilder();
-		makeOneHyphenLine(headerRowCaptions, markdownTable, HYPHEN);
-		return markdownTable.toString();
+		//StringBuilder markdownTable = new StringBuilder();
+		return makeOneHyphenLine(headerRowCaptions, HYPHEN);
+		//return markdownTable.toString();
 	}
 
-	private static void makeOneHyphenLine(List<String> headerRowCaptions, StringBuilder markdownTable, String param) {
+	private static String makeOneHyphenLine(List<String> headerRowCaptions, String param) {
+		StringBuilder markdownTable = new StringBuilder();
 		for (String captions : headerRowCaptions) {
 			markdownTable.append(PIPE + Strings.repeat(param, captions.length()));
 		}
 		insertRowEnd(markdownTable);
+		return markdownTable.toString();
 	}
 
 	private static String createEmptyRows(List<String> headerRowCaptions, int emptyRowCount) {
