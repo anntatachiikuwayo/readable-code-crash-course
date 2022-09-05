@@ -81,9 +81,7 @@ public class MarkdownTableUtils {
 	}
 
 	private static String createSeparatorRow(List<String> headerRowCaptions) {
-		//StringBuilder markdownTable = new StringBuilder();
 		return makeOneHyphenLine(headerRowCaptions, HYPHEN);
-		//return markdownTable.toString();
 	}
 
 	private static String makeOneHyphenLine(List<String> headerRowCaptions, String param) {
@@ -96,19 +94,21 @@ public class MarkdownTableUtils {
 	}
 
 	private static String createEmptyRows(List<String> headerRowCaptions, int emptyRowCount) {
-		StringBuilder markdownTable = new StringBuilder();
-		for (int i = 0; i < emptyRowCount; i++) {
-			makeOneEmptyLine(headerRowCaptions, markdownTable, SPACE);
-		}
-		return markdownTable.toString();
+		//makeOneHyphenLineとmakeOneEmptyLineの処理内容が同じだからまとめたい
+		//ここでfor文回したいがreturnしちゃってムリ
+		//どうしよう
+		return makeOneEmptyLine(headerRowCaptions, SPACE, emptyRowCount);
 	}
 
-	private static void makeOneEmptyLine(List<String> headerRowCaptions, StringBuilder markdownTable, String param) {
-		for (String captions : headerRowCaptions) {
-			markdownTable.append(PIPE);
-			markdownTable.append(Strings.repeat(param, captions.length()));
+	private static String makeOneEmptyLine(List<String> headerRowCaptions, String param, int count) {
+		StringBuilder markdownTable = new StringBuilder();
+		for (int i = 0; i < count; i++) {
+			for (String captions : headerRowCaptions) {
+				markdownTable.append(PIPE + Strings.repeat(param, captions.length()));
+			}
+			insertRowEnd(markdownTable);
 		}
-		insertRowEnd(markdownTable);
+		return markdownTable.toString();
 	}
 
 	private static void insertRowEnd(StringBuilder markdownTable) {
