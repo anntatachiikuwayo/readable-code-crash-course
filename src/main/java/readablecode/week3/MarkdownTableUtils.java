@@ -40,9 +40,9 @@ public class MarkdownTableUtils {
 	public static String createEmptyTable(List<String> headerRowCaptions, int emptyRowCount)
 			throws IllegalArgumentException, NullPointerException {
 
-		String firstLine;
-		String secondLine;
-		String extraLine;
+		String markdownHeaderString;
+		String markdownSeparatorString;
+		String markdownEmptyString;
 
 		// validate args
 		Objects.requireNonNull(headerRowCaptions, "headerCaptions must not be null");
@@ -53,11 +53,11 @@ public class MarkdownTableUtils {
 			throw new IllegalArgumentException("emptyRowCount must be greater than or equal to 1");
 		}
 
-		firstLine = makeHeaderRowCaptions(headerRowCaptions, PIPE) + putPIPEandNewLine(PIPE);
-		secondLine = makeHeaderRowSeparator(headerRowCaptions, PIPE, HYPHEN) + putPIPEandNewLine(PIPE);
-		extraLine = makeEmptyRows(headerRowCaptions, emptyRowCount, PIPE, SPACE);
+		markdownHeaderString = makeHeaderRowCaptions(headerRowCaptions, PIPE) + putPIPEandNewLine(PIPE);
+		markdownSeparatorString = makeHeaderRowSeparator(headerRowCaptions, PIPE, HYPHEN) + putPIPEandNewLine(PIPE);
+		markdownEmptyString = makeEmptyRows(headerRowCaptions, emptyRowCount, PIPE, SPACE);
 
-		return firstLine + secondLine + extraLine;
+		return markdownHeaderString + markdownSeparatorString + markdownEmptyString;
 	}
 
 	private static String makeHeaderRowCaptions(List<String> headerRowCaptions, String PIPE) {
