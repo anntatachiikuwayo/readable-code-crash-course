@@ -39,7 +39,7 @@ public class MarkdownTableUtils {
 	 * @throws IllegalArgumentException if headerRowCaptions is empty
 	 * @throws IllegalArgumentException if emptyRowCount is less than 1
 	 */
-	public static String createEmptyTable(List<String> headerRowCaptions, int emptyRowCount) {
+	public static String createMarkdownTableWithEmptyDataRows(List<String> headerRowCaptions, int emptyRowCount) {
 
 		//TODO1;重複コードを探して抽出、リファクタ
 		//HINT1:セパレータ行と空行の作成ロジックは、" " または "-" を除いて同じです。
