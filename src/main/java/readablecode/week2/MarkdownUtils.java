@@ -13,7 +13,7 @@ public class MarkdownUtils {
 	// TODO4 : re-name method as it is after you read Readable code 3.0, 3.9
 	// TODO5 : remove the unnecessary variable after you read Readable code 9.1
 
-	public static String createEmptyTableExceptName(List<String> nameListOfColumns, int recordNum)
+	public static String createMarkdownTableWithEmptyDataRows(List<String> nameListOfColumns, int recordNum)
 			throws IllegalArgumentException {
 		if (nameListOfColumns == null) {
 			throw new IllegalArgumentException("");
