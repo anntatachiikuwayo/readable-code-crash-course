@@ -3,8 +3,10 @@ package readablecode.week3;
 import java.util.List;
 import java.util.Objects;
 
+import com.google.common.base.Strings;
+
 public class MarkdownTableUtils {
-	// TODO3 : find the code to be replace with the method used at TODO7
+	// TODO3 : find the code to be replace with the method used at TODO2
 	// refer OAOO principal
 
 	// TODO4 : extract method and remove the comment if the comment is unnecessary,
@@ -16,19 +18,28 @@ public class MarkdownTableUtils {
 
 	// TODO1 add @throws in javadoc
 	// e.g @throws xxxException if xxx is null or is less than XXX
+
+	private static final String PIPE = "|";
+	private static final String HYPHEN = "-";
+	private static final String SPACE = " ";
+
 	/**
 	 * Returns the string of table which has empty rows as Markdown table syntax.
 	 * length of captions for separator cell and empty cell is same with their
 	 * header captions
-	 * 
-	 * 
+	 *
+	 *
 	 * @param headerRowCaptions the captions for header row
 	 * @param emptyRowCount     the number of empty rows.
 	 * @return the string of table which has empty rows as Markdown table
-	 * 
-	 * 
+	 * @throws IllegalArgumentException if headerRowCaptions is empty
+	 * @throws IllegalArgumentException if emptyRowCount is less than 1
+	 * @throws NullPointerException if headerRowCaptions is null
 	 */
-	public static String createEmptyTable(List<String> headerRowCaptions, int emptyRowCount) {
+
+	public static String createMarkdownTableWithEmptyDataRows(List<String> headerRowCaptions, int emptyRowCount)
+			throws IllegalArgumentException, NullPointerException {
+
 		// validate args
 		Objects.requireNonNull(headerRowCaptions, "headerCaptions must not be null");
 		if (headerRowCaptions.isEmpty()) {
@@ -38,48 +49,45 @@ public class MarkdownTableUtils {
 			throw new IllegalArgumentException("emptyRowCount must be greater than or equal to 1");
 		}
 
-		StringBuilder markdownTable = new StringBuilder();
-		// create line for header row captions
-		for (String e : headerRowCaptions) {
-			markdownTable.append("|");
-			markdownTable.append(e);
-		}
-		markdownTable.append("|");
-		markdownTable.append(System.lineSeparator());
+		String markdownHeaderString = makeHeaderRowCaptions(headerRowCaptions, PIPE) + putPIPEandNewLine(PIPE);
+		String markdownSeparatorString = makeHeaderRowSeparator(headerRowCaptions, PIPE, HYPHEN) + putPIPEandNewLine(PIPE);
+		String markdownEmptyString = makeEmptyRows(headerRowCaptions, emptyRowCount, PIPE, SPACE);
 
-		// create line for header row separator
-		for (String e : headerRowCaptions) {
-			markdownTable.append("|");
-
-			// TODO2 : use com.google.common.base.Strings to replace the followings:13.4
-			// target code to replace with Strings begin
-			for (int i = 0; i < e.length(); i++) {
-				markdownTable.append("-");
-			}
-			// target code to replace with guava end
-			// how to find suitable method in framework
-			// 1.open {@link com.google.common.base.Strings} and check outline (control + o)
-			// and read javadoc
-			// 2.check junit TestCase on github
-
-		}
-		markdownTable.append("|");
-		markdownTable.append(System.lineSeparator());
-
-		// create lines for empty rows
-		for (int i = 0; i < emptyRowCount; i++) {
-			for (String e : headerRowCaptions) {
-				markdownTable.append("|");
-				for (int j = 0; j < e.length(); j++) {
-					markdownTable.append(" ");
-				}
-			}
-			markdownTable.append("|");
-			markdownTable.append(System.lineSeparator());
-		}
-
-		return markdownTable.toString();
-
+		return markdownHeaderString + markdownSeparatorString + markdownEmptyString;
 	}
 
+	private static String makeHeaderRowCaptions(List<String> headerRowCaptions, String PIPE) {
+
+		StringBuilder localMarkdownTable = new StringBuilder();
+		for (String columnName : headerRowCaptions) {
+			localMarkdownTable.append(PIPE + columnName);
+		}
+		return localMarkdownTable.toString();
+	}
+
+	private static String makeHeaderRowSeparator(List<String> headerRowCaptions, final String PIPE, final String HYPHEN) {
+		StringBuilder localMarkdownTable = new StringBuilder();
+		for (String columnName : headerRowCaptions) {
+			String rowSeparator = Strings.repeat(HYPHEN, columnName.length());
+			localMarkdownTable.append(PIPE + rowSeparator);
+		}
+		return localMarkdownTable.toString();
+	}
+
+	private static String makeEmptyRows(List<String> headerRowCaptions, int emptyRowCount, final String PIPE,
+			final String SPACE) {
+		StringBuilder localMarkdownTable = new StringBuilder();
+		for (int i = 0; i < emptyRowCount; i++) {
+			for (String columnName : headerRowCaptions) {
+				String emptyRows = Strings.repeat(SPACE, columnName.length());
+				localMarkdownTable.append(PIPE + emptyRows);
+			}
+			localMarkdownTable.append(putPIPEandNewLine(PIPE));
+		}
+		return localMarkdownTable.toString();
+	}
+
+	private static String putPIPEandNewLine(String PIPE) {
+		return PIPE + System.lineSeparator();
+	}
 }
